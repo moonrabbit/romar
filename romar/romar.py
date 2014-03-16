@@ -68,7 +68,7 @@ def _marshall_item(rawitem, template, options):
                 result.append(nvalue)
         return result
 
-    elif type(template) is str:
+    elif type(template) in (str, unicode):
         if _is_field(template):
             name, ftype = _get_field_comps(template)
             if name in rawitem:
@@ -129,7 +129,7 @@ def _convert_to(type, value, options):
 
 
 def _is_field(value):
-    if type(value) is not str:
+    if type(value) not in (str, unicode):
         return False
     return re.match(_field_regex, value) \
         or re.match(_field_regex_with_type, value)

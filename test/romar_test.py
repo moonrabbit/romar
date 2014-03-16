@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), u'../'))
 
 import unittest
 import romar
@@ -9,74 +9,74 @@ import romar
 
 class MarshallTest(unittest.TestCase):
     options = {
-        'filter':
+        u'filter':
         {
-            '${inclusion:bool}': True
+            u'${inclusion:bool}': True
         },
-        'list_separators': ", ",
-        'ignore_empty_item': True
+        u'list_separators': u', ',
+        u'ignore_empty_item': True
     }
     template_data = [{
-        'id': '${id:str}',
-        'stat':
+        u'id': u'${id:str}',
+        u'stat':
         {
-            'power': '${power:num}',
-            '${stat_key_1:str}': '${stat_value_1:num}',
-            '${stat_key_2:str}': '${stat_value_2:num}',
-            '${stat_key_3:str}': '${stat_value_3:num}'
+            u'power': u'${power:num}',
+            u'${stat_key_1:str}': u'${stat_value_1:num}',
+            u'${stat_key_2:str}': u'${stat_value_2:num}',
+            u'${stat_key_3:str}': u'${stat_value_3:num}'
         },
-        'tags':
+        u'tags':
         [
-            '${tag_1:str}',
-            '${tag_2:str}',
-            '${tag_3:str}'
+            u'${tag_1:str}',
+            u'${tag_2:str}',
+            u'${tag_3:str}'
         ],
     }]
 
     def test_marshall(self):
         rawitems = [
             {
-                'inclusion:bool': 'Y',
-                'id:str': 'items_1',
-                'power:num': '123.2',
-                'stat_key_1:str': 'speed',
-                'stat_value_1:num': '12',
-                'stat_key_2:str': 'cooltime',
-                'stat_value_2:num': '123.12',
-                'stat_key_3:str': '          ',
-                'tag_1:str': 'little',
-                'tag_2:str': 'big'
+                u'inclusion:bool': u'Y',
+                u'id:str': u'items_1',
+                u'power:num': u'123.2',
+                u'stat_key_1:str': u'speed',
+                u'stat_value_1:num': u'12',
+                u'stat_key_2:str': u'cooltime',
+                u'stat_value_2:num': u'123.12',
+                u'stat_key_3:str': u'          u',
+                u'tag_1:str': u'little',
+                u'tag_2:str': u'big'
             },
             {
-                'inclusion:bool': 'Y',
-                'id:str': 'items_2',
-                'power:num': '321'
+                u'inclusion:bool': u'Y',
+                u'id:str': u'items_2',
+                u'power:num': u'321'
             },
             {
-                'inclusion:bool': 'N',
-                'id:str': 'items_3',
-                'power:num': '321'
+                u'inclusion:bool': u'N',
+                u'id:str': u'items_3',
+                u'power:num': u'321'
             }
         ]
 
         correct_result = [
             {
-                'id': 'items_1',
-                'stat':
+                u'id': u'items_1',
+                u'stat':
                 {
-                    'power': 123.2,
-                    'speed': 12,
-                    'cooltime': 123.12
+                    u'power': 123.2,
+                    u'speed': 12,
+                    u'cooltime': 123.12
                 },
-                'tags': ['little', 'big']
+                u'tags': ['little', u'big']
             },
             {
-                'id': 'items_2',
-                'stat':
+                u'id': u'items_2',
+                u'stat':
                 {
-                    'power': 321
+                    u'power': 321
                 },
-                'tags': []
+                u'tags': []
             }
         ]
 
@@ -86,53 +86,53 @@ class MarshallTest(unittest.TestCase):
     def test_marshall_rows(self):
         correct_result = [
             {
-                'id': 'items_1',
-                'stat':
+                u'id': u'items_1',
+                u'stat':
                 {
-                    'power': 123.2,
-                    'speed': 12,
-                    'cooltime': 123.12
+                    u'power': 123.2,
+                    u'speed': 12,
+                    u'cooltime': 123.12
                 },
-                'tags': ['little', 'big']
+                u'tags': ['little', u'big']
             },
             {
-                'id': 'items_2',
-                'stat':
+                u'id': u'items_2',
+                u'stat':
                 {
-                    'power': 321
+                    u'power': 321
                 },
-                'tags': []
+                u'tags': []
             }
         ]
 
         rows = [
             [
-                'inclusion:bool', 'id:str', 'power:num',
-                'stat_key_1:str', 'stat_value_1:num',
-                'stat_key_2:str', 'stat_value_2:num',
-                'stat_key_3:str', 'stat_value_3:num',
-                'tag_1:str', 'tag_2:str', 'tag_3:str'
+                u'inclusion:bool', u'id:str', u'power:num',
+                u'stat_key_1:str', u'stat_value_1:num',
+                u'stat_key_2:str', u'stat_value_2:num',
+                u'stat_key_3:str', u'stat_value_3:num',
+                u'tag_1:str', u'tag_2:str', u'tag_3:str'
             ],
             [
-                'Y', 'items_1', '123.2',
-                'speed', '12',
-                'cooltime', '123.12',
-                '', '',
-                'little', 'big', ''
+                u'Y', u'items_1', u'123.2',
+                u'speed', u'12',
+                u'cooltime', u'123.12',
+                u'', u'',
+                u'little', u'big', u''
             ],
             [
-                'Y', 'items_2', '321',
-                '', '',
-                '', '',
-                '', '',
-                '', '', ''
+                u'Y', u'items_2', u'321',
+                u'', u'',
+                u'', u'',
+                u'', u'',
+                u'', u'', u''
             ],
             [
-                'N', 'items_3', '321',
-                '', '',
-                '', '',
-                '', '',
-                '', '', ''
+                u'N', u'items_3', u'321',
+                u'', u'',
+                u'', u'',
+                u'', u'',
+                u'', u'', u''
             ],
         ]
 
@@ -140,5 +140,5 @@ class MarshallTest(unittest.TestCase):
             rows, self.template_data, self.options)
         self.assertEqual(result, correct_result)
 
-if __name__ == '__main__':
+if __name__ == u'__main__':
     unittest.main()
