@@ -21,8 +21,6 @@ setup(
     ],
     zip_safe=False,
     install_requires=[],
-    tests_require=[
-        'pytest',
-    ],
+    tests_require=[],
     platforms='any',
 )
