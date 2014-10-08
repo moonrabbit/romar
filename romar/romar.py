@@ -105,7 +105,7 @@ def _get_filtered_items(rawitems, options):
 def _convert_to(type, value, options):
     ''' value를 type형으로 바꿔서 리턴한다.'''
     if type == 'str':
-        return str(value)
+        return unicode(value)
     elif type == 'num':
         value = value.replace('%', '')
         if '.' in value:
