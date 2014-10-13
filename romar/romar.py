@@ -13,7 +13,7 @@ _default_options = {
 }
 
 
-def marshall_rows(rows, template, options=None, name_row_idx=1):
+def marshall_rows(rows, template, parent=None, options=None, name_row_idx=1):
     fieldnames = rows[name_row_idx-1]
     fieldnames = [name.strip() for name in fieldnames]
     rows = rows[name_row_idx:]
@@ -25,7 +25,27 @@ def marshall_rows(rows, template, options=None, name_row_idx=1):
             item[fieldnames[idx]] = col
         rawitems.append(item)
 
-    return marshall(rawitems, template, options)
+    items = marshall(rawitems, template, options)
+    if parent is None:
+        return items
+    else:
+        return _insert_parent_items(parent, items)
+
+
+def _insert_parent_items(parent, items):
+    if type(parent) is dict:
+        result = {}
+        for key, value in parent.iteritems():
+            result[key] = _insert_parent_items(value, items)
+        return result
+    elif type(parent) is list:
+        result = []
+        for item in parent:
+            result.append(_insert_parent_items(parent, items))
+        return result
+    elif parent == "${template}":
+        return items
+
 
 
 def marshall(rawitems, template, options=None):
