@@ -1,6 +1,7 @@
 # -*-coding:utf8-*-
 import re
 import copy
+from collections import OrderedDict
 
 _field_regex = '\$\{([a-zA-Z0-9_]+)\}'
 _field_regex_with_type = '\$\{([a-zA-Z0-9_]+?):([a-zA-Z0-9:<>]+)\}'
@@ -20,7 +21,7 @@ def marshall_rows(rows, template, parent=None, options=None, name_row_idx=1):
 
     rawitems = []
     for row in rows:
-        item = {}
+        item = OrderedDict()
         for idx, col in enumerate(row):
             item[fieldnames[idx]] = col
         rawitems.append(item)
@@ -33,13 +34,13 @@ def marshall_rows(rows, template, parent=None, options=None, name_row_idx=1):
 
 
 def _insert_parent_items(parent, items):
-    if type(parent) is dict:
-        result = {}
+    if isinstance(parent, dict):
+        result = OrderedDict()
         for key, value in parent.iteritems():
             result[key] = _insert_parent_items(value, items)
         return result
-    elif type(parent) is list:
-        result = []
+    elif isinstance(parent, list):
+        result = OrderedDict()
         for item in parent:
             result.append(_insert_parent_items(parent, items))
         return result
@@ -56,13 +57,13 @@ def marshall(rawitems, template, options=None):
     filtered_items = _get_filtered_items(rawitems, options)
 
     result = None
-    if type(template) is dict:
-        result = {}
+    if isinstance(template, dict):
+        result = OrderedDict()
         for rawitem in filtered_items:
             templated_item = _marshall_item(rawitem, template, options)
             result.update(templated_item)
         return result
-    elif type(template) is list:
+    elif isinstance(template, list):
         result = []
         for rawitem in filtered_items:
             templated_item = _marshall_item(rawitem, template[0], options)
@@ -71,8 +72,8 @@ def marshall(rawitems, template, options=None):
 
 
 def _marshall_item(rawitem, template, options):
-    if type(template) is dict:
-        result = {}
+    if isinstance(template, dict):
+        result = OrderedDict()
         for key, value in template.items():
             nkey = _marshall_item(rawitem, key, options)
             nvalue = _marshall_item(rawitem, value, options)
@@ -80,7 +81,7 @@ def _marshall_item(rawitem, template, options):
                 result[nkey] = nvalue
         return result
 
-    elif type(template) is list:
+    elif isinstance(template, list):
         result = []
         for value in template:
             nvalue = _marshall_item(rawitem, value, options)
@@ -125,7 +126,7 @@ def _get_filtered_items(rawitems, options):
 def _convert_to(type, value, options):
     ''' value를 type형으로 바꿔서 리턴한다.'''
     if type == 'str':
-        return value.decode('utf-8')
+        return value
     elif type == 'num':
         value = value.replace('%', '')
         if '.' in value:
